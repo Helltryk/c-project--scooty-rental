@@ -43,3 +43,4 @@ void view_all_rentals(RentalRecord *records, int count);
 void search_records(RentalRecord *records, int count);
 
 #endif // RENTAL_MANAGER_H
+
