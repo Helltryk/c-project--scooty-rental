@@ -9,7 +9,8 @@
 #define RENTAL_MANAGER_H
 
 #include <time.h>
-
+#include <stdio.h>
+#include <stdlib.h>
 
 // --- CONSTANTS ---
 #define DATA_FILE "rental_data.dat"
