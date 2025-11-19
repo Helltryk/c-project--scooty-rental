@@ -29,8 +29,6 @@ typedef struct {
     double total_cost;               // Calculated cost
 } RentalRecord;
 
-// --- FUNCTION PROTOTYPES (API) ---
-
 // File I/O and Initialization
 int load_data(RentalRecord **records, int *count);
 int save_data(RentalRecord *records, int count);
