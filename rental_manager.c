@@ -124,6 +124,8 @@ int save_data(RentalRecord *records, int count) {
         fprintf(stderr, "Error: Cannot open file %s for writing.\n", DATA_FILE);
         return 0;
     }
+}
 
     if (count > 0) {
         size_t items_written = fwrite(records, sizeof(RentalRecord), count, file);
+    }
