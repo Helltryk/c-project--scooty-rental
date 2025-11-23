@@ -1,45 +1,87 @@
-/*
- * rental_manager.h
- *
- * Defines structures, constants, and function prototypes for the
- * Scooty Rental Data Management System.
- */
-
 #ifndef RENTAL_MANAGER_H
 #define RENTAL_MANAGER_H
 
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
-// --- CONSTANTS ---
-#define DATA_FILE "rental_data.dat"
-#define MAX_NAME_LEN 50
-#define MAX_ID_LEN 10
-#define HOURLY_RATE 15.0 // Rental rate per hour
+#define MAX_SCOOTERS 100
+#define MAX_CUSTOMERS 100
+#define MAX_RENTALS 100
+#define MAX_NAME_LENGTH 50
+#define MAX_MODEL_LENGTH 50
+#define MAX_PHONE_LENGTH 15
 
-// --- STRUCTURE DEFINITION ---
-// Data structure for a single rental transaction.
+// Scooter status enumeration
+typedef enum {
+    AVAILABLE,
+    RENTED,
+    MAINTENANCE
+} ScooterStatus;
+
+// Scooter structure
 typedef struct {
-    char record_id[MAX_ID_LEN];      // Unique rental record ID (e.g., R0001)
-    char scooty_id[MAX_ID_LEN];      // Scooty identifier (e.g., S001)
-    char customer_name[MAX_NAME_LEN];
-    time_t start_time;               // Time rental started
-    time_t end_time;                 // Time rental ended (0 if ongoing)
-    double total_cost;               // Calculated cost
-} RentalRecord;
+    int scooter_id;
+    char model[MAX_MODEL_LENGTH];
+    char registration_number[20];
+    float hourly_rate;
+    int battery_level;
+    ScooterStatus status;
+} Scooter;
 
-// File I/O and Initialization
-int load_data(RentalRecord **records, int *count);
-int save_data(RentalRecord *records, int count);
+// Customer structure
+typedef struct {
+    int customer_id;
+    char name[MAX_NAME_LENGTH];
+    char phone[MAX_PHONE_LENGTH];
+    char license_number[20];
+    int total_rentals;
+} Customer;
 
-// Data Management Operations
-void add_new_rental(RentalRecord **records, int *count);
-void end_active_rental(RentalRecord **records, int *count);
+// Rental structure
+typedef struct {
+    int rental_id;
+    int scooter_id;
+    int customer_id;
+    time_t start_time;
+    time_t end_time;
+    float total_cost;
+    int is_active;
+} Rental;
 
-// View and Reporting
-void view_all_rentals(RentalRecord *records, int count);
-void search_records(RentalRecord *records, int count);
+// Rental Manager structure
+typedef struct {
+    Scooter scooters[MAX_SCOOTERS];
+    Customer customers[MAX_CUSTOMERS];
+    Rental rentals[MAX_RENTALS];
+    int scooter_count;
+    int customer_count;
+    int rental_count;
+} RentalManager;
+
+// Function prototypes for scooter management
+void init_rental_manager(RentalManager *manager);
+int add_scooter(RentalManager *manager, const char *model, const char *reg_number, float hourly_rate);
+int remove_scooter(RentalManager *manager, int scooter_id);
+void display_scooters(RentalManager *manager);
+void display_available_scooters(RentalManager *manager);
+Scooter* find_scooter(RentalManager *manager, int scooter_id);
+
+// Function prototypes for customer management
+int add_customer(RentalManager *manager, const char *name, const char *phone, const char *license);
+void display_customers(RentalManager *manager);
+Customer* find_customer(RentalManager *manager, int customer_id);
+
+// Function prototypes for rental management
+int start_rental(RentalManager *manager, int customer_id, int scooter_id);
+int end_rental(RentalManager *manager, int rental_id);
+void display_active_rentals(RentalManager *manager);
+void display_rental_history(RentalManager *manager);
+float calculate_rental_cost(Rental *rental, Scooter *scooter);
+
+// Utility functions
+void update_scooter_status(RentalManager *manager, int scooter_id, ScooterStatus status);
+void display_menu();
 
 #endif // RENTAL_MANAGER_H
-
