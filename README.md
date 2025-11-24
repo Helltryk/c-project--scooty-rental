@@ -180,3 +180,7 @@ Created as a C programming educational project demonstrating:
 - Function decomposition
 - User interface design
 - Time-based calculations
+
+
+By:
+Arahan Chaudhary
