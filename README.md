@@ -6,6 +6,8 @@ A comprehensive C programming project for managing scooter rentals with features
 
 ```
 project/
+├── docs/
+│   ├── ProjectReport.pdf
 ├── src/
 │   ├── rental_manager.h
 │   ├── rental_manager.c
